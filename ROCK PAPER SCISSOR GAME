@@ -1,0 +1,42 @@
+import random
+
+# Function to determine the winner
+def determine_winner(player1_choice, player2_choice):
+    if player1_choice == player2_choice:
+        return "It's a tie!"
+    elif (player1_choice == "rock" and player2_choice == "scissors") or \
+         (player1_choice == "scissors" and player2_choice == "paper") or \
+         (player1_choice == "paper" and player2_choice == "rock"):
+        return "Player 1 wins!"
+    else:
+        return "Player 2 wins!"
+
+# Main game function
+def play_game():
+    choices = ["rock", "paper", "scissors"]
+    
+    while True:
+        print("Options: rock, paper, scissors")
+        
+        player1_choice = input("Player 1, enter your choice: ").lower()
+        while player1_choice not in choices:
+            print("Invalid choice. Please choose again.")
+            player1_choice = input("Player 1, enter your choice: ").lower()
+        
+        player2_choice = input("Player 2, enter your choice: ").lower()
+        while player2_choice not in choices:
+            print("Invalid choice. Please choose again.")
+            player2_choice = input("Player 2, enter your choice: ").lower()
+        
+        print(f"Player 1 chose: {player1_choice}")
+        print(f"Player 2 chose: {player2_choice}")
+        
+        result = determine_winner(player1_choice, player2_choice)
+        print(result)
+        
+        play_again = input("Do you want to play again? (yes/no): ").lower()
+        if play_again != "yes":
+            break
+
+if __name__ == "__main__":
+    play_game()
