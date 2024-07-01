@@ -1,0 +1,66 @@
+import random
+
+def provide_feedback(secret, guess):
+    correct_position = 0
+    correct_digit = 0
+    secret_list = list(secret)
+    guess_list = list(guess)
+
+    # Check for correct positions
+    for i in range(len(secret_list)):
+        if guess_list[i] == secret_list[i]:
+            correct_position += 1
+            secret_list[i] = guess_list[i] = None
+
+    # Check for correct digits in wrong positions
+    for i in range(len(secret_list)):
+        if guess_list[i] and guess_list[i] in secret_list:
+            correct_digit += 1
+            secret_list[secret_list.index(guess_list[i])] = None
+
+    return correct_position, correct_digit
+
+def player_guess(secret):
+    attempts = 0
+    while True:
+        guess = input("Enter your guess: ")
+        attempts += 1
+        correct_position, correct_digit = provide_feedback(secret, guess)
+        if correct_position == len(secret):
+            print(f"Correct! You've guessed the number in {attempts} attempts.")
+            return attempts
+        else:
+            print(f"{correct_position} digits are correct and in the correct position.")
+            print(f"{correct_digit} digits are correct but in the wrong position.")
+
+def set_secret():
+    while True:
+        secret = input("Enter the secret number: ")
+        if len(set(secret)) == len(secret):
+            return secret
+        else:
+            print("Number should not have repeating digits. Try again.")
+
+def main():
+    print("Welcome to Mastermind Game!")
+    length = int(input("Enter the length of the number: "))
+
+    print("\nPlayer 1's turn to set the number.")
+    secret1 = set_secret()
+    print("\nPlayer 2's turn to guess the number.")
+    attempts2 = player_guess(secret1)
+
+    print("\nPlayer 2's turn to set the number.")
+    secret2 = set_secret()
+    print("\nPlayer 1's turn to guess the number.")
+    attempts1 = player_guess(secret2)
+
+    if attempts1 < attempts2:
+        print("\nPlayer 1 wins and is crowned Mastermind!")
+    elif attempts2 < attempts1:
+        print("\nPlayer 2 wins and is crowned Mastermind!")
+    else:
+        print("\nIt's a tie!")
+
+if __name__ == "__main__":
+    main()
